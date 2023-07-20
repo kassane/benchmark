@@ -65,3 +65,7 @@ CMakeSettings.json
 # Python build stuff
 dist/
 *.egg-info*
+
+# Zig build
+zig-cache/
+zig-out/
