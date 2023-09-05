@@ -10,8 +10,8 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    lib.addIncludePath("src");
-    lib.addIncludePath("include");
+    lib.addIncludePath(.{.path = "src"});
+    lib.addIncludePath(.{.path = "include"});
     lib.addCSourceFiles(&.{
         "src/benchmark.cc",
         "src/benchmark_api_internal.cc",
@@ -41,9 +41,9 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    libMain.addIncludePath("src");
-    libMain.addIncludePath("include");
-    libMain.addCSourceFile("src/benchmark_main.cc", cxxflags);
+    libMain.addIncludePath(.{.path = "src"});
+    libMain.addIncludePath(.{.path = "include"});
+    libMain.addCSourceFile(.{.file = .{.path = "src/benchmark_main.cc"}, .flags = cxxflags});
     libMain.pie = true;
     if (target.getAbi() == .msvc) {
         lib.linkLibC();
@@ -101,13 +101,13 @@ fn buildExe(b: *std.Build, property: BuildInfo) void {
     for (property.libs[0].include_dirs.items) |dir| {
         exe.include_dirs.append(dir) catch {};
     }
-    exe.addCSourceFile(property.path, cxxflags);
+    exe.addCSourceFile(.{.file = .{.path = property.path}, .flags = cxxflags});
 
     exe.linkLibrary(property.libs[0]);
     if (std.mem.startsWith(u8, property.filename(), "link_main"))
         exe.linkLibrary(property.libs[1]);
     if (std.mem.startsWith(u8, property.filename(), "complexity") or std.mem.startsWith(u8, property.filename(), "internal")) {
-        exe.addCSourceFile("test/output_test_helper.cc", cxxflags);
+        exe.addCSourceFile(.{.file = .{.path = "test/output_test_helper.cc"}, .flags = cxxflags});
     }
     if (exe.target.getAbi() == .msvc) {
         exe.linkLibC();
