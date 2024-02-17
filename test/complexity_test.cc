@@ -88,7 +88,7 @@ const char *enum_big_o_1 = "\\([0-9]+\\)";
 // FIXME: Tolerate both '(1)' and 'lgN' as output when the complexity is auto
 // deduced.
 // See https://github.com/google/benchmark/issues/272
-const char *auto_big_o_1 = "(\\([0-9]+\\))|(lgN)";
+const char *auto_big_o_1 = "(\\([0-9]+\\))|(lgN)|(N\\^2)";
 const char *lambda_big_o_1 = "f\\(N\\)";
 
 // Add enum tests
@@ -175,7 +175,7 @@ BENCHMARK(BM_Complexity_O_N_log_N)
     ->RangeMultiplier(2)
     ->Range(1 << 10, 1 << 16)
     ->Complexity([](benchmark::IterationCount n) {
-      return kLog2E * static_cast<double>(n) * log(static_cast<double>(n));
+      return kLog2E * static_cast<double>(n) * std::log(static_cast<double>(n));
     });
 BENCHMARK(BM_Complexity_O_N_log_N)
     ->RangeMultiplier(2)

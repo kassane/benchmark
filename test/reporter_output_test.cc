@@ -55,6 +55,9 @@ static int AddContextCases() {
              {{"Load Average: (%float, ){0,2}%float$", MR_Next}});
   }
   AddCases(TC_JSONOut, {{"\"load_avg\": \\[(%float,?){0,3}],$", MR_Next}});
+  AddCases(TC_JSONOut, {{"\"library_version\": \".*\",$", MR_Next}});
+  AddCases(TC_JSONOut, {{"\"library_build_type\": \".*\",$", MR_Next}});
+  AddCases(TC_JSONOut, {{"\"json_schema_version\": 1$", MR_Next}});
   return 0;
 }
 int dummy_register = AddContextCases();
@@ -1088,7 +1091,7 @@ ADD_CASES(TC_CSVOut, {{"^\"BM_UserPercentStats/iterations:5/repeats:3/"
                       {"^\"BM_UserPercentStats/iterations:5/repeats:3/"
                        "manual_time_stddev\",%csv_report$"},
                       {"^\"BM_UserPercentStats/iterations:5/repeats:3/"
-                       "manual_time_\",%csv_report$"}});
+                       "manual_time_\",%csv_cv_report$"}});
 
 // ========================================================================= //
 // ------------------------- Testing StrEscape JSON ------------------------ //
